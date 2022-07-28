@@ -8,7 +8,7 @@ import serve from "rollup-plugin-serve";
 const dev = process.env.ROLLUP_WATCH;
 
 const serveOptions = {
-  contentBase: ["./dist"],
+  contentBase: ["./../dist"],
   host: "0.0.0.0",
   port: 5000,
   allowCrossOrigin: true,
@@ -20,7 +20,7 @@ const serveOptions = {
 export default {
   input: "src/main.ts",
   output: {
-    file: "dist/fold-entity-row.js",
+    file: "../dist/fold-entity-row.js",
     format: "es",
   },
   plugins: [

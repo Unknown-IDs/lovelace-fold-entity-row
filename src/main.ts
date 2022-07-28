@@ -227,6 +227,19 @@ class FoldEntityRow extends LitElement {
         flex-grow: 1;
         max-width: calc(100% - var(--toggle-icon-width));
       }
+      #head :not(ha-icon):focus-visible {
+        outline: none;
+        background: var(--divider-color);
+        border-radius: 24px;
+        background-size: cover;
+      }
+      #head :not(ha-icon):focus {
+        outline: none;
+      }
+
+      :host(.section-head) ha-icon {
+        margin-top: 16px;
+      }
       ha-icon {
         padding-top: 10px;
         padding-bottom: 10px;
@@ -237,22 +250,9 @@ class FoldEntityRow extends LitElement {
         border-radius: 50%;
         background-size: cover;
         --mdc-icon-size: var(--toggle-icon-width);
-        
+
         -webkit-tap-highlight-color: rgba(0,0,0,0);
         -webkit-tap-highlight-color: transparent;
-      }
-      :host(.section-head) ha-icon {
-        margin-top: 16px;
-      }
-
-      #head :not(ha-icon):focus-visible {
-        outline: none;
-        background: var(--divider-color);
-        border-radius: 24px;
-        background-size: cover;
-      }
-      #head :not(ha-icon):focus {
-        outline: none;
       }
 
       #items {
