@@ -38,7 +38,6 @@ class FoldEntityRow extends LitElement {
   @property() open: boolean;
   @property() head?: LovelaceElement;
   @property() rows?: LovelaceElement[];
-  @property() entitiesWarning = false;
   _config: FoldEntityRowConfig;
   _hass: any;
   _hassResolve?: any;
@@ -175,29 +174,6 @@ class FoldEntityRow extends LitElement {
 
   connectedCallback(): void {
     super.connectedCallback();
-
-    window.setTimeout(() => {
-      if (!this.isConnected || this.entitiesWarning) return;
-      findParentCard(this).then((result) => {
-        if (!result && this._config.mute !== true) {
-          this.entitiesWarning = true;
-          console.group(
-            "%cYou are doing it wrong!",
-            "color: red; font-weight: bold"
-          );
-          console.info(
-            "Fold-entity-row should only EVER be used INSIDE an ENTITIES CARD."
-          );
-          console.info(
-            "See https://github.com/thomasloven/lovelace-fold-entity-row/issues/146"
-          );
-          console.info(this);
-          console.groupEnd();
-          // Silence this warning by placing the fold-entity-row inside an entities card.
-          // or by setting mute: true
-        }
-      });
-    }, 1000);
   }
 
   _customEvent(ev: CustomEvent) {
@@ -245,22 +221,25 @@ class FoldEntityRow extends LitElement {
       #head {
         display: flex;
         align-items: center;
-        --toggle-icon-width: 32px;
+        --toggle-icon-width: 38px;
       }
       #head :not(ha-icon) {
         flex-grow: 1;
         max-width: calc(100% - var(--toggle-icon-width));
       }
       ha-icon {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 4px;
+        margin-right: -4px;
         width: var(--toggle-icon-width);
         cursor: pointer;
         border-radius: 50%;
         background-size: cover;
         --mdc-icon-size: var(--toggle-icon-width);
-      }
-      ha-icon:focus {
-        outline: none;
-        background: var(--divider-color);
+        
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+        -webkit-tap-highlight-color: transparent;
       }
       :host(.section-head) ha-icon {
         margin-top: 16px;
@@ -279,7 +258,6 @@ class FoldEntityRow extends LitElement {
       #items {
         padding: 0;
         margin: 0;
-        height: 100%;
         overflow-x: hidden:
         overflow-y: visible;
       }
@@ -288,7 +266,7 @@ class FoldEntityRow extends LitElement {
         margin: 8px 0;
       }
       #measure > *:first-child {
-        margin-top: 0;
+        margin-top: 7px;
       }
       #measure > *:last-child {
         margin-bottom: 0;
