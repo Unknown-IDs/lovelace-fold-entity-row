@@ -3,6 +3,7 @@ import { property } from "lit/decorators.js";
 import pjson from "../package.json";
 import { selectTree } from "card-tools/src/helpers";
 import { findParentCard, actionHandlerBind, actionHandler } from "./helpers.js";
+import { forwardHaptic } from "./utils/haptics";
 
 interface LovelaceElement extends HTMLElement {
   hass?: any;
@@ -146,6 +147,8 @@ class FoldEntityRow extends LitElement {
 
   async toggle(ev: CustomEvent) {
     if (ev) ev.stopPropagation();
+    forwardHaptic("medium");
+    
     this.open = this.open == false;
 
     // Accessibility
@@ -191,7 +194,7 @@ class FoldEntityRow extends LitElement {
           icon=${this.open ? "mdi:chevron-up" : "mdi:chevron-down"}
           @action=${this.toggle}
           .actionHandler=${actionHandler({})}
-          role="${this._config.clickable ? "" : "switch"}"
+          role="${this._config.clickable ? null : "switch"}"
           tabindex="${this._config.clickable ? "-1" : "0"}"
           aria-checked=${this.open ? "true" : "false"}
           aria-label="${this._config.clickable
@@ -205,8 +208,8 @@ class FoldEntityRow extends LitElement {
       <div
         id="items"
         ?open=${this.open}
-        aria-hidden="${String(!this.open)}"
-        aria-expanded="${String(this.open)}"
+        aria-hidden="${!this.open}"
+        aria-expanded="${this.open}"
         style=${`padding-left: ${this._config.padding}px;`}
       >
         <div id="measure">
@@ -258,7 +261,7 @@ class FoldEntityRow extends LitElement {
       #items {
         padding: 0;
         margin: 0;
-        overflow-x: hidden:
+        overflow-x: hidden;
         overflow-y: visible;
       }
 
